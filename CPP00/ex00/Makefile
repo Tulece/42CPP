@@ -16,7 +16,7 @@ $(NAME): megaphone.cpp
 clean:
 	rm -f $(NAME)
 
-# Règle pour tout nettoyer
+# Règle p                 our tout nettoyer
 fclean: clean
 
 # Règle pour recompiler
