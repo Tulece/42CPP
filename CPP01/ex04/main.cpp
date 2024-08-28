@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 
 void replaceAll(std::string& line, const std::string& s1, const std::string& s2) {
@@ -34,14 +35,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Ouverture du fichier en lecture
-	std::ifstream inputFile(filename);
+	std::ifstream inputFile(filename.c_str());
 	if (!inputFile.is_open()) {
 		std::cerr << "Error: Could not open file " << filename << std::endl;
 		return 1;
 	}
 
 	// Création du fichier de sortie
-	std::ofstream outputFile(filename + ".replace");
+	filename += ".replace";
+	std::ofstream outputFile(filename.c_str());
 	if (!outputFile.is_open()) {
 		std::cerr << "Error: Could not create output file " << filename << ".replace" << std::endl;
 		inputFile.close();
