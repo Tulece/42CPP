@@ -1,23 +1,23 @@
-// DiamondTrap.hpp
-
 #ifndef DIAMONDTRAP_HPP
 #define DIAMONDTRAP_HPP
 
 #include "FragTrap.hpp"
 #include "ScavTrap.hpp"
 
-class DiamondTrap : public FragTrap, public ScavTrap {
+class DiamondTrap : public ScavTrap, public FragTrap {
 private:
-	std::string name; // Conflit de nom intentionnel avec ClapTrap
+    std::string name; // Nom propre à DiamondTrap
+
 public:
-	// Constructor
-	DiamondTrap(const std::string& name);
+    // Constructor
+    DiamondTrap(const std::string& name);
 
-	// Destructor
-	~DiamondTrap();
+    // Destructor
+    ~DiamondTrap();
 
-	void whoAmI();
-	using ScavTrap::attack; // Prendre l'attaque de ScavTrap, comme spécifié
+    // Member functions
+    void whoAmI();
+    void attack(const std::string& target);
 };
 
 #endif
