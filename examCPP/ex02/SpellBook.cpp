@@ -27,5 +27,5 @@ ASpell* SpellBook::createSpell(std::string const & spellName) {
     std::map<std::string, ASpell*>::iterator it = spells.find(spellName);
     if (it != spells.end())
         return it->second->clone();
-    return nullptr;
+    return NULL;
 }
