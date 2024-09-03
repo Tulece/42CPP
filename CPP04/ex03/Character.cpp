@@ -53,6 +53,7 @@ void Character::equip(AMateria* m) {
 
 void Character::unequip(int idx) {
 	if (idx >= 0 && idx < 4) {
+		delete _inventory[idx];
 		_inventory[idx] = NULL;
 	}
 }
