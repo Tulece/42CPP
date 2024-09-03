@@ -17,7 +17,7 @@ void Harl::error() {
 }
 
 void Harl::complain(std::string level) {
-	void (Harl::*funcPtr)() = nullptr;
+	void (Harl::*funcPtr)() = NULL;
 
 	if (level == "DEBUG")
 		funcPtr = &Harl::debug;

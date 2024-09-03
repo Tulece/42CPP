@@ -7,7 +7,7 @@ Dog::Dog() {
 		std::cout << "Dog constructor called" << std::endl;
 	} catch (const std::bad_alloc& e) {
 		std::cerr << "Failed to allocate memory for Dog's Brain: " << e.what() << std::endl;
-		brain = nullptr;
+		brain = NULL;
 	}
 }
 

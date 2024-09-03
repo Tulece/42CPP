@@ -4,7 +4,7 @@
 
 MateriaSource::MateriaSource() {
 	for (int i = 0; i < 4; i++) {
-		_materias[i] = nullptr;
+		_materias[i] = NULL;
 	}
 }
 
@@ -29,5 +29,5 @@ AMateria* MateriaSource::createMateria(std::string const & type) {
 			return _materias[i]->clone();
 		}
 	}
-	return nullptr;
+	return NULL;
 }

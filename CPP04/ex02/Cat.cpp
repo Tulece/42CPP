@@ -7,7 +7,7 @@ Cat::Cat() {
 		std::cout << "Cat constructor called" << std::endl;
 	} catch (const std::bad_alloc& e) {
 		std::cerr << "Failed to allocate memory for Cat's Brain: " << e.what() << std::endl;
-		brain = nullptr;
+		brain = NULL;
 	}
 }
 
