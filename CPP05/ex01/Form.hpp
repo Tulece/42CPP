@@ -15,7 +15,7 @@ private:
 	const int gradeToExecute;
 
 public:
-	 Exceptions
+	// Exceptions
 	class GradeTooHighException : public std::exception {
 		public:
 			virtual const char* what() const throw() {
@@ -30,24 +30,24 @@ public:
 			}
 	};
 
-	 Constructors & Destructor
+	// Constructors & Destructor
 	Form(const std::string& name, int gradeToSign, int gradeToExecute);
 	Form(const Form& other);
 	Form& operator=(const Form& other);
 	~Form();
 
-	 Getters
+	// Getters
 	const std::string& getName() const;
 	bool getIsSigned() const;
 	int getGradeToSign() const;
 	int getGradeToExecute() const;
 
-	 Member functions
+	// Member functions
 	void beSigned(const Bureaucrat& b);
 
 };
 
- Overloading the insertion (<<) operator for Form
+// Overloading the insertion (<<) operator for Form
 std::ostream& operator<<(std::ostream& out, const Form& f);
 
 #endif

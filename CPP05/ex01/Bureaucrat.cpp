@@ -1,6 +1,6 @@
 #include "Bureaucrat.hpp"
 
- Constructor
+// Constructor
 Bureaucrat::Bureaucrat(const std::string& name, int grade) : name(name), grade(grade) {
 	if (grade < 1)
 		throw GradeTooHighException();
@@ -8,10 +8,10 @@ Bureaucrat::Bureaucrat(const std::string& name, int grade) : name(name), grade(g
 		throw GradeTooLowException();
 }
 
- Copy constructor
+// Copy constructor
 Bureaucrat::Bureaucrat(const Bureaucrat& other) : name(other.name), grade(other.grade) {}
 
- Assignment operator
+// Assignment operator
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other) {
 	if (this != &other) {
 		this->grade = other.grade;

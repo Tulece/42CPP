@@ -1,6 +1,6 @@
 #include "Form.hpp"
 
- Constructor
+// Constructor
 Form::Form(const std::string& name, int gradeToSign, int gradeToExecute)
 	: name(name), isSigned(false), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute) {
 	if (gradeToSign < 1 || gradeToExecute < 1)
@@ -9,23 +9,23 @@ Form::Form(const std::string& name, int gradeToSign, int gradeToExecute)
 		throw GradeTooLowException();
 }
 
- Copy constructor
+// Copy constructor
 Form::Form(const Form& other)
 	: name(other.name), isSigned(other.isSigned), gradeToSign(other.gradeToSign), gradeToExecute(other.gradeToExecute) {}
 
- Assignment operator
+// Assignment operator
 Form& Form::operator=(const Form& other) {
 	if (this != &other) {
 		this->isSigned = other.isSigned;
-		 Les autres attributs constants ne peuvent pas être modifiés
+		// Les autres attributs constants ne peuvent pas être modifiés
 	}
 	return *this;
 }
 
- Destructor
+// Destructor
 Form::~Form() {}
 
- Getters
+// Getters
 const std::string& Form::getName() const {
 	return name;
 }
@@ -42,14 +42,14 @@ int Form::getGradeToExecute() const {
 	return gradeToExecute;
 }
 
- Member function to sign the form
+// Member function to sign the form
 void Form::beSigned(const Bureaucrat& b) {
 	if (b.getGrade() > gradeToSign)
 		throw GradeTooLowException();
 	isSigned = true;
 }
 
- Overload the << operator
+// Overload the << operator
 std::ostream& operator<<(std::ostream& out, const Form& f) {
 	out << "Form " << f.getName() << ", signed: " << (f.getIsSigned() ? "yes" : "no")
 		<< ", grade required to sign: " << f.getGradeToSign()
