@@ -7,7 +7,7 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
 void ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
 	checkExecutable(executor);
-	std::ofstream ofs(getTarget() + "_shrubbery");
+	std::ofstream ofs((getTarget() + "_shrubbery").c_str());
 	if (ofs.is_open()) {
 		ofs << "       _-_       \n"
 			<< "    /~~   ~~\\    \n"
