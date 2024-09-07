@@ -14,7 +14,7 @@ private:
 	int grade;
 
 public:
-	 Exceptions
+	// Exceptions
 	class GradeTooHighException : public std::exception {
 		public:
 			virtual const char* what() const throw() {
@@ -29,7 +29,7 @@ public:
 			}
 	};
 
-	 Constructors & Destructor
+	// Constructors & Destructor
 	Bureaucrat(const std::string& name, int grade);
 	Bureaucrat(const Bureaucrat& other);
 	Bureaucrat& operator=(const Bureaucrat& other);

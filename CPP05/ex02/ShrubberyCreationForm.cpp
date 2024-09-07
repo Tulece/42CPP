@@ -14,10 +14,10 @@ void ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
 			<< " /~~         ~~\\ \n"
 			<< "{               }\n"
 			<< " \\  _-     -_  / \n"
-			<< "   ~  \\\\   ~   \n"
+			<< "   ~  \\\\ //  ~   \n"
 			<< "_- -   | | _- _  \n"
 			<< "  _ -  | |   -_  \n"
-			<< "       \\\\      \n";
+			<< "      // \\\\      \n";
 		ofs.close();
 	}
 }
