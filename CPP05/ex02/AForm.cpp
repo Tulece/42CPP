@@ -1,45 +1,72 @@
-#include "Bureaucrat.hpp"
-#include "Intern.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
+#include "AForm.hpp"
 
-int main() {
-	Intern someRandomIntern;
-	AForm* rrf;
+// Constructor
+AForm::AForm(const std::string& name, const std::string& target, int gradeToSign, int gradeToExecute)
+    : name(name), isSigned(false), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute), target(target) {
+    if (gradeToSign < 1 || gradeToExecute < 1)
+        throw GradeTooHighException();
+    if (gradeToSign > 150 || gradeToExecute > 150)
+        throw GradeTooLowException();
+}
 
-	// Test creating a RobotomyRequestForm
-	rrf = someRandomIntern.makeForm("robotomy request", "Bender");
-	if (rrf) {
-		Bureaucrat john("John", 1);
-		john.signForm(*rrf);  // Dereference the pointer to pass a reference
-		john.executeForm(*rrf);  // Dereference the pointer to pass a reference
-		delete rrf;
-	}
+// Copy constructor
+AForm::AForm(const AForm& other)
+    : name(other.name), isSigned(other.isSigned), gradeToSign(other.gradeToSign),
+      gradeToExecute(other.gradeToExecute), target(other.target) {}
 
-	// Test creating a ShrubberyCreationForm
-	AForm* scf = someRandomIntern.makeForm("shrubbery creation", "home");
-	if (scf) {
-		Bureaucrat alice("Alice", 1);
-		alice.signForm(*scf);  // Dereference the pointer
-		alice.executeForm(*scf);  // Dereference the pointer
-		delete scf;
-	}
+// Assignment operator
+AForm& AForm::operator=(const AForm& other) {
+    if (this != &other) {
+        this->isSigned = other.isSigned;
+        // The rest of the members are constant and cannot be reassigned
+    }
+    return *this;
+}
 
-	// Test creating a PresidentialPardonForm
-	AForm* ppf = someRandomIntern.makeForm("presidential pardon", "TargetName");
-	if (ppf) {
-		Bureaucrat bob("Bob", 1);
-		bob.signForm(*ppf);  // Dereference the pointer
-		bob.executeForm(*ppf);  // Dereference the pointer
-		delete ppf;
-	}
+// Destructor
+AForm::~AForm() {}
 
-	// Test with an invalid form name
-	AForm* invalidForm = someRandomIntern.makeForm("invalid form", "TargetName");
-	if (!invalidForm) {
-		std::cout << "No form was created for invalid form name." << std::endl;
-	}
+// Getters
+const std::string& AForm::getName() const {
+    return name;
+}
 
-	return 0;
+bool AForm::getIsSigned() const {
+    return isSigned;
+}
+
+int AForm::getGradeToSign() const {
+    return gradeToSign;
+}
+
+int AForm::getGradeToExecute() const {
+    return gradeToExecute;
+}
+
+const std::string& AForm::getTarget() const {
+    return target;
+}
+
+// Member function to sign the form
+void AForm::beSigned(const Bureaucrat& b) {
+    if (b.getGrade() > gradeToSign)
+        throw GradeTooLowException();
+    isSigned = true;
+}
+
+// Helper to check if the form can be executed
+void AForm::checkExecutable(const Bureaucrat& executor) const {
+    if (!isSigned)
+        throw FormNotSignedException();
+    if (executor.getGrade() > gradeToExecute)
+        throw GradeTooLowException();
+}
+
+// Overload the << operator
+std::ostream& operator<<(std::ostream& out, const AForm& f) {
+    out << "Form " << f.getName() << ", signed: " << (f.getIsSigned() ? "yes" : "no")
+        << ", grade required to sign: " << f.getGradeToSign()
+        << ", grade required to execute: " << f.getGradeToExecute()
+        << ", target: " << f.getTarget();
+    return out;
 }
