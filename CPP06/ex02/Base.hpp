@@ -5,6 +5,7 @@ class Base
 {
 public:
 	virtual ~Base();
+	virtual void identify() = 0;
 };
 
 #endif

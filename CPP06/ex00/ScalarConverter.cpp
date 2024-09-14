@@ -7,6 +7,7 @@
 #include <cctype>
 #include <exception>
 #include <algorithm>
+#include <sstream>
 
 void ScalarConverter::convert(const std::string& literal)
 {
@@ -30,16 +31,14 @@ void ScalarConverter::convert(const std::string& literal)
 	}
 	else
 	{
-		if (literal.back() == 'f' || literal.back() == 'F')
+		if (literal[literal.length() - 1] == 'f' || literal[literal.length() - 1] == 'F')
 		{
 			value = literal.substr(0, literal.length() -1);
 		}
 
-		try
-		{
-			dValue = std::stod(value);
-		}
-		catch (const std::exception&)
+		std::stringstream ss(value);
+		ss >> dValue;
+		if (ss.fail() || !ss.eof())
 		{
 			if (lowerLiteral == "nan" || lowerLiteral == "nanf")
 			{
@@ -63,6 +62,7 @@ void ScalarConverter::convert(const std::string& literal)
 				return;
 			}
 		}
+
 	}
 
 	std::cout << "char: ";

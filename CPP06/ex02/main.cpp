@@ -5,7 +5,7 @@
 
 int main()
 {
-	srand(static_cast<unsigned int>(time(NULL))); // Initialisation du générateur de nombres aléatoires
+	srand(static_cast<unsigned int>(time(NULL)));
 
 	Base* basePtr = generate();
 

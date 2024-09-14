@@ -2,7 +2,12 @@
 #define A_HPP
 
 #include "Base.hpp"
+#include <iostream>
 
-class A : public Base {};
+class A : public Base
+{
+public:
+	void identify();
+};
 
 #endif
