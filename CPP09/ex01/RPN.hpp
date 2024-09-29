@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <climits>
+#include <cstdlib>
 
 class RPN
 {

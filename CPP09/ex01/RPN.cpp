@@ -1,5 +1,4 @@
 #include "RPN.hpp"
-#include <climits>
 
 RPN::RPN()
 {

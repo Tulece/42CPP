@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <iostream>
 #include <iomanip>
+#include <climits>
 
 class PmergeMe
 {
