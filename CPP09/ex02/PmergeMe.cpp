@@ -40,9 +40,11 @@ void PmergeMe::loadData(int argc, char** argv)
 		int value = static_cast<int>(num);
 		_vectorData.push_back(value);
 		_dequeData.push_back(value);
+		_listData.push_back(value);
 
 		_originalVectorData.push_back(value);
 		_originalDequeData.push_back(value);
+		_originalListData.push_back(value);
 	}
 }
 
@@ -65,33 +67,50 @@ void PmergeMe::sortData()
 	const int iterations = 1000;
 	double totalVectorTime = 0.0;
 	double totalDequeTime = 0.0;
+	double totalListTime = 0.0;
 
 	for (int i = 0; i < iterations; ++i)
 	{
-		std::vector<int> vectorCopy = _vectorData;
-		std::deque<int> dequeCopy = _dequeData;
+		std::vector<int> vectorCopy = _originalVectorData;
+		std::deque<int> dequeCopy = _originalDequeData;
+		std::list<int> listCopy = _originalListData;
 
 		clock_t startClock = clock();
 		mergeInsertSortVector(vectorCopy);
 		clock_t endClock = clock();
-		totalVectorTime += static_cast<double>(endClock - startClock) / CLOCKS_PER_SEC;
+		totalVectorTime += static_cast<double>(endClock - startClock) / CLOCKS_PER_SEC * 1e6;
 
 		startClock = clock();
 		mergeInsertSortDeque(dequeCopy);
 		endClock = clock();
-		totalDequeTime += static_cast<double>(endClock - startClock) / CLOCKS_PER_SEC;
+		totalDequeTime += static_cast<double>(endClock - startClock) / CLOCKS_PER_SEC * 1e6;
+
+		startClock = clock();
+		mergeInsertSortList(listCopy);
+		endClock = clock();
+		totalListTime += static_cast<double>(endClock - startClock) / CLOCKS_PER_SEC * 1e6;
 	}
 
-	_vectorTime = (totalVectorTime / iterations) * 1e6;
-	_dequeTime = (totalDequeTime / iterations) * 1e6;
+	_vectorTime = totalVectorTime / iterations;
+	_dequeTime = totalDequeTime / iterations;
+	_listTime = totalListTime / iterations;
+
+	_vectorData = _originalVectorData;
+	mergeInsertSortVector(_vectorData);
+
+	_dequeData = _originalDequeData;
+	mergeInsertSortDeque(_dequeData);
+
+	_listData = _originalListData;
+	mergeInsertSortList(_listData);
 }
+
 
 
 
 void PmergeMe::displayResults(bool beforeSorting)
 {
 	const std::vector<int>& vectorToDisplay = beforeSorting ? _originalVectorData : _vectorData;
-
 	std::cout << (beforeSorting ? "Before: " : "After: ");
 	for (size_t i = 0; i < vectorToDisplay.size(); ++i)
 	{
@@ -106,13 +125,18 @@ void PmergeMe::displayResults(bool beforeSorting)
 
 	if (!beforeSorting)
 	{
+		std::cout << std::fixed << std::setprecision(3);
 		std::cout << "Time to process a range of " << _vectorData.size() << " elements with std::vector : ";
 		std::cout << _vectorTime << " us" << std::endl;
 
 		std::cout << "Time to process a range of " << _dequeData.size() << " elements with std::deque : ";
 		std::cout << _dequeTime << " us" << std::endl;
+
+		std::cout << "Time to process a range of " << _listData.size() << " elements with std::list : ";
+		std::cout << _listTime << " us" << std::endl;
 	}
 }
+
 
 
 void PmergeMe::mergeInsertSortVector(std::vector<int>& vec)
@@ -229,4 +253,91 @@ void PmergeMe::mergeDeque(std::deque<int>& deq, int left, int mid, int right)
 		deq[k++] = temp[i++];
 	while (j <= right - left)
 		deq[k++] = temp[j++];
+}
+
+void PmergeMe::mergeInsertSortList(std::list<int>& lst)
+{
+	if (lst.size() <= 1)
+		return;
+
+	if (lst.size() <= 16)
+	{
+		insertionSortList(lst);
+		return;
+	}
+
+	std::list<int> left;
+	std::list<int> right;
+	std::list<int>::iterator it = lst.begin();
+	std::advance(it, lst.size() / 2);
+	left.splice(left.begin(), lst, lst.begin(), it);
+	right.splice(right.begin(), lst, lst.begin(), lst.end());
+
+	mergeInsertSortList(left);
+	mergeInsertSortList(right);
+
+	lst.clear();
+	mergeList(left, right, lst);
+}
+
+void PmergeMe::insertionSortList(std::list<int>& lst)
+{
+	if (lst.size() <= 1)
+		return;
+
+	std::list<int>::iterator it = lst.begin();
+	++it;
+
+	for (; it != lst.end(); ++it)
+	{
+		int key = *it;
+		std::list<int>::iterator prev = it;
+		--prev;
+
+		while (it != lst.begin() && *prev > key)
+		{
+			std::list<int>::iterator next = prev;
+			++next;
+			*next = *prev;
+			if (prev == lst.begin())
+				break;
+			--prev;
+		}
+
+		std::list<int>::iterator next = prev;
+		++next;
+		*next = key;
+	}
+}
+
+void PmergeMe::mergeList(std::list<int>& left, std::list<int>& right, std::list<int>& result)
+{
+	std::list<int>::iterator itLeft = left.begin();
+	std::list<int>::iterator itRight = right.begin();
+
+	while (itLeft != left.end() && itRight != right.end())
+	{
+		if (*itLeft <= *itRight)
+		{
+			result.push_back(*itLeft);
+			++itLeft;
+		}
+		else
+		{
+			result.push_back(*itRight);
+			++itRight;
+		}
+	}
+
+	while (itLeft != left.end())
+	{
+		result.push_back(*itLeft);
+		++itLeft;
+	}
+
+	while (itRight != right.end())
+	{
+		result.push_back(*itRight);
+		++itRight;
+	}
 }
